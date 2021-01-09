@@ -1,0 +1,29 @@
+.img
+{
+	width: 200px;
+}
+
+.form-control.error
+{
+	border-color: red;
+}
+
+.groupomania-color
+{
+	background-color: #091f43;
+}
+
+.groupomania-color2
+{
+	background-color: #d1515a;
+}
+
+.text-groupomania
+{
+	color: #091f43;
+}
+
+body
+{
+	background-color: #bfbeb9;
+}
