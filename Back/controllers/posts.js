@@ -19,9 +19,12 @@ exports.createPost = (req, res, next) => {
 exports.modifyPost = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1];
   const decodedToken = jwt.verify(token, 'M0NS1T3GR0UP0M4N14');
-  if (decodedToken.userId == req.body.post.userId || decodedToken.isAdmin) {
+  
+    
     var reqbody = null;
     var post = JSON.parse(req.body.post);
+    console.log(post);
+    if (decodedToken.userId == post.userId || decodedToken.isAdmin) {
     if (req.file) {
       reqbody = {
         ...post,
@@ -42,29 +45,28 @@ exports.modifyPost = (req, res, next) => {
       })
       .then(() => res.status(201).json({ message: 'Post modifié !' }))
       .catch(error => res.status(400).json({ error }));
-  } else { }
-
+  }
 };
+
 /* DELETE ONE POST */
 exports.deletePost = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1];
   const decodedToken = jwt.verify(token, 'M0NS1T3GR0UP0M4N14');
- 
-    Post.findOne({ id: req.params.id })
+  Post.findOne({ id: req.params.id })
     .then(post => {
       if (decodedToken.userId == post.userId || decodedToken.isAdmin) {
-      const filename = post.imageUrl.split('/images/')[1];
-      fs.unlink(`images/${filename}`, () => {
-        Post.destroy({
-          where: {
-            id: req.params.id
-          }
-        }).then(() => res.status(200).json({ message: 'Post supprimé !' }))
-          .catch(error => res.status(400).json({ error }));
-      });
-    } else { }
+        const filename = post.imageUrl.split('/images/')[1];
+        fs.unlink(`images/${filename}`, () => {
+          Post.destroy({
+            where: {
+              id: req.params.id
+            }
+          }).then(() => res.status(200).json({ message: 'Post supprimé !' }))
+            .catch(error => res.status(400).json({ error }));
+        });
+      } else { }
     })
- 
+
 };
 
 // /* GET POST BY ID */

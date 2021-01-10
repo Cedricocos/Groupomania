@@ -17,12 +17,14 @@ modelt.addEventListener('click', function () {
 	var inputTitle = document.getElementById("title");
 	var inputText = document.getElementById("text");
 	var inputImageURL = document.getElementById("imageurl");
+	var userId = localStorage.getItem("postUserId");
 
 	var data = new FormData();
 	var updtpost = {
 		title: inputTitle.value,
 		text: inputText.value,
-		id: id
+		id: id,
+		userId: userId
 	};
 
 	data.append("post", JSON.stringify(updtpost));
@@ -31,6 +33,7 @@ modelt.addEventListener('click', function () {
 	request("posts/" + id, 201, "PUT", data, [{ key: "Authorization", value: "Bearer " + localStorage.getItem("Token") }]).then(function (data) {
 		localStorage.removeItem("title");
 		localStorage.removeItem("text");
+		localStorage.removeItem("postUserId");
 		window.location.assign("index.html");
 	}).catch((error) => {
 		console.log(error);
