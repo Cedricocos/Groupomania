@@ -4,7 +4,7 @@ const router = express.Router();
 
 const comsCtrl = require('../controllers/Coms');
 
-router.get('coms/:id', comsCtrl.createCom);
-router.post('coms/:id', comsCtrl.getAllComs)
+router.get('/:id', comsCtrl.getAllComsByPostId);
+router.post('/', comsCtrl.createCom)
 
 module.exports = router;

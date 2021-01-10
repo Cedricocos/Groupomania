@@ -41,3 +41,9 @@ elt.addEventListener('click', function() {
 	
 
 });
+
+document.getElementById("formlogin").addEventListener("keyup", function(event) {
+	if (event.code == "Enter") {
+		elt.click();
+	}
+})

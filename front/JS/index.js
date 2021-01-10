@@ -1,23 +1,25 @@
 // Ce code affiche les articles postés sur la BDD avec une requete GET
 
-request("posts", 200, "GET", null, [{key: "Authorization", value: "Bearer " + localStorage.getItem("Token")}]).then(function(data){
+request("posts", 200, "GET", null, [{ key: "Authorization", value: "Bearer " + localStorage.getItem("Token") }]).then(function (data) {
 	for (let post of data) {
-        const card = document.createElement("div");
-		card.setAttribute("class","card col-6 offset-3 mb-3 align-self-center");
+		const card = document.createElement("div");
+		card.setAttribute("class", "card col-6 offset-3 mb-3 align-self-center");
+
 
 		const h4 = document.createElement("h4");
 		h4.setAttribute("class", "mt-2");
-		h4.innerHTML = "Message de " + post.by + " le " + post.createdAt;
+		var date = new Date(Date.parse(post.createdAt));
+		h4.innerHTML = post.by + ", le " + date.toLocaleDateString();
 		card.appendChild(h4);
 
-		
+
 		const h2 = document.createElement("h2");
-		h2.setAttribute("class","card-title mt-1");
+		h2.setAttribute("class", "card-title mt-1");
 		h2.innerHTML = post.title;              //Titre du post
 		card.appendChild(h2);
 
 		const p = document.createElement("p");
-		p.setAttribute("class","card-text");
+		p.setAttribute("class", "card-text");
 		p.innerHTML = post.text;        //Texte du post
 		card.appendChild(p);
 
@@ -29,54 +31,64 @@ request("posts", 200, "GET", null, [{key: "Authorization", value: "Bearer " + lo
 		const list = document.getElementById("listPosts");
 		list.appendChild(card);
 
+		isAdmin = localStorage.getItem("isAdmin");
+
 		if (localStorage.getItem("userId") == post.userId) {
 
 			const divbutton = document.createElement("div");
 			divbutton.setAttribute("class", "mb-3");
 			card.appendChild(divbutton);
 
-			const delpost = document.createElement("button");   
+			const delpost = document.createElement("button");
 			delpost.setAttribute("id", "delpost" + post.id);   // Bouton supprimer
 			delpost.setAttribute("class", "btn btn-danger col-6");
 			delpost.innerHTML = "Supprimer";
 			divbutton.appendChild(delpost);
 
-			const modpost = document.createElement("a");
-			modpost.setAttribute("href", "modpost.html?id=" + post.id);   // Bouton Modifier
+			const modpost = document.createElement("button");
 			modpost.setAttribute("class", "btn btn-warning col-6");
+			modpost.addEventListener("click", function () {
+				localStorage.setItem("title", post.title);
+				localStorage.setItem("text", post.text);
+				window.location.assign("modpost.html?id=" + post.id);
+			})
 			modpost.innerHTML = "Modifier";
 			divbutton.appendChild(modpost);
 
 			const del = document.getElementById('delpost' + post.id);
-			del.addEventListener('click', function() {    
-				request("posts/" + post.id, 200, "DELETE", null, [{key: "Authorization", value: "Bearer " + localStorage.getItem("Token")}]).then(function(data){
+			del.addEventListener('click', function () {
+				request("posts/" + post.id, 200, "DELETE", null, [{ key: "Authorization", value: "Bearer " + localStorage.getItem("Token") }]).then(function (data) {
 					window.location.reload();
 				}).catch((error) => {
 					console.log(error);
 				})
 			});
 
-		} else if (localStorage.getItem("isAdmin") === true) {
+		} else if (isAdmin == true) {
 
 			const divbutton = document.createElement("div");
 			divbutton.setAttribute("class", "mb-3");
 			card.appendChild(divbutton);
 
-			const delpost = document.createElement("button");   
+			const delpost = document.createElement("button");
 			delpost.setAttribute("id", "delpost" + post.id);   // Bouton supprimer
 			delpost.setAttribute("class", "btn btn-danger col-6");
 			delpost.innerHTML = "Supprimer";
 			divbutton.appendChild(delpost);
 
-			const modpost = document.createElement("a");
-			modpost.setAttribute("href", "modpost.html?id=" + post.id);   // Bouton Modifier
+			const modpost = document.createElement("button");
 			modpost.setAttribute("class", "btn btn-warning col-6");
+			modpost.addEventListener("click", function () {
+				localStorage.setItem("title", post.title);
+				localStorage.setItem("text", post.text);
+				window.location.assign("modpost.html?id=" + post.id);
+			})
 			modpost.innerHTML = "Modifier";
 			divbutton.appendChild(modpost);
 
 			const del = document.getElementById('delpost' + post.id);
-			del.addEventListener('click', function() {    
-				request("posts/" + post.id, 200, "DELETE", null, [{key: "Authorization", value: "Bearer " + localStorage.getItem("Token")}]).then(function(data){
+			del.addEventListener('click', function () {
+				request("posts/" + post.id, 200, "DELETE", null, [{ key: "Authorization", value: "Bearer " + localStorage.getItem("Token") }]).then(function (data) {
 					window.location.reload();
 				}).catch((error) => {
 					console.log(error);
@@ -84,8 +96,10 @@ request("posts", 200, "GET", null, [{key: "Authorization", value: "Bearer " + lo
 			});
 		}
 
+
+
 		const divcoms = document.createElement("div");
-		divcoms.setAttribute("id","coms");
+		divcoms.setAttribute("id", "coms");
 
 		const comstitle = document.createElement("h5");
 		comstitle.innerHTML = "Commentaires";
@@ -99,34 +113,55 @@ request("posts", 200, "GET", null, [{key: "Authorization", value: "Bearer " + lo
 			group.setAttribute("class", "input-group mb-3");
 
 			const postcom = document.createElement("input");
-			postcom.setAttribute("id","com");
-			postcom.setAttribute("type","text");
-			postcom.setAttribute("class","form-control");
-			postcom.setAttribute("placeholder","Commentaire...");
+			postcom.setAttribute("id", "com");
+			postcom.setAttribute("type", "text");
+			postcom.setAttribute("data-id", post.id);
+			postcom.setAttribute("class", "form-control input-com");
+			postcom.setAttribute("placeholder", "Commentaire...");
 			group.appendChild(postcom);
 
 			const groupbtn = document.createElement("div");
 			groupbtn.setAttribute("class", "input-group-append");
 
 			const postcomsub = document.createElement("button");
-			postcomsub.setAttribute("id","sendcom");
-			postcomsub.setAttribute("class", "btn btn-outline-secondary");
+			postcomsub.setAttribute("class", "btn btn-outline-secondary sendcom");
 			postcomsub.setAttribute("type", "button");
+			postcomsub.setAttribute("data-id", post.id);
 			postcomsub.innerHTML = "Envoyer";
 			groupbtn.appendChild(postcomsub);
 			group.appendChild(groupbtn);
 
 			divcoms.appendChild(group);
 			
+
 		};
 
 		const comslist = document.createElement("div");
 		comslist.setAttribute("id", "comslist");
-		card.appendChild(comslist);
-		
-	}
-});
+		for (let com of post.Coms) {
 
+			
+			const div = document.createElement('div');
+
+			const by = document.createElement('p');
+			by.setAttribute("class", "titlecom");
+			var date = new Date(Date.parse(com.createdAt));
+			by.innerHTML = "Réponse de " + com.by + " le " + date.toLocaleDateString() + " :";
+			div.appendChild(by);
+
+			const text = document.createElement('p');
+			text.innerHTML = com.text;
+			div.appendChild(text);
+
+
+
+			comslist.appendChild(div);
+		};
+		card.appendChild(comslist);
+
+	}
+	prepareCom();
+});
 // `
 // <div class='card'>
 // 	<div class="card-header">
