@@ -3,7 +3,7 @@
 request("posts", 200, "GET", null, [{ key: "Authorization", value: "Bearer " + localStorage.getItem("Token") }]).then(function (data) {
 	for (let post of data) {
 		const card = document.createElement("div");
-		card.setAttribute("class", "card col-6 offset-3 mb-3 align-self-center");
+		card.setAttribute("class", "card col-9 col-lg-6 mb-3");
 
 
 		const h4 = document.createElement("h4");
