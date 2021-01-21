@@ -33,7 +33,7 @@ request("posts", 200, "GET", null, [{ key: "Authorization", value: "Bearer " + l
 
 		isAdmin = localStorage.getItem("isAdmin");
 
-		if (localStorage.getItem("userId") == post.userId || isAdmin == true) {
+		if (localStorage.getItem("userId") == post.userId || localStorage.getItem("isAdmin") == "true") {
 
 			const divbutton = document.createElement("div");
 			divbutton.setAttribute("class", "mb-3");
