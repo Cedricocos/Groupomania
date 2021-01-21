@@ -19,12 +19,11 @@ exports.createPost = (req, res, next) => {
 exports.modifyPost = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1];
   const decodedToken = jwt.verify(token, 'M0NS1T3GR0UP0M4N14');
-  
-    
-    var reqbody = null;
-    var post = JSON.parse(req.body.post);
-    console.log(post);
-    if (decodedToken.userId == post.userId || decodedToken.isAdmin) {
+
+  var reqbody = null;
+  var post = JSON.parse(req.body.post);
+  console.log(post);
+  if (decodedToken.userId == post.userId || decodedToken.isAdmin) {
     if (req.file) {
       reqbody = {
         ...post,
