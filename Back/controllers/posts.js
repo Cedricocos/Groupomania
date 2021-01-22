@@ -23,7 +23,7 @@ exports.modifyPost = (req, res, next) => {
   var reqbody = null;
   var post = JSON.parse(req.body.post);
   console.log(post);
-  if (decodedToken.userId == post.userId || decodedToken.isAdmin) {
+  if (decodedToken.userId == post.userId || decodedToken.isAdmin == "true") {
     if (req.file) {
       reqbody = {
         ...post,
@@ -53,7 +53,7 @@ exports.deletePost = (req, res, next) => {
   const decodedToken = jwt.verify(token, 'M0NS1T3GR0UP0M4N14');
   Post.findOne({ id: req.params.id })
     .then(post => {
-      if (decodedToken.userId == post.userId || decodedToken.isAdmin) {
+      if (decodedToken.userId == post.userId || decodedToken.isAdmin == "true") {
         const filename = post.imageUrl.split('/images/')[1];
         fs.unlink(`images/${filename}`, () => {
           Post.destroy({
