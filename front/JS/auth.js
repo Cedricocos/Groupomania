@@ -35,4 +35,3 @@ deco.addEventListener('click', function(event) {
     window.location.assign("index.html");
 });
 
-
