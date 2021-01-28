@@ -8,17 +8,16 @@ elt.addEventListener('click', function() {
     var inputImageURL = document.getElementById("imageurl");
 	var checkForm = true;
 
-	inputTitle.classList.remove("error");
-	inputText.classList.remove("error");
-
-	if (!inputTitle.checkValidity()) {
+	if (!inputTitle.reportValidity()) {
 		checkForm = false;
-		inputTitle.classList.add("error");
 	}
 
-	if (!inputText.checkValidity()) {
+	if (!inputText.reportValidity()) {
 		checkForm = false;
-		inputText.classList.add("error");
+	}
+
+	if (!inputImageURL.reportValidity()) {
+		checkForm = false;
 	}
 
 	if (checkForm) {

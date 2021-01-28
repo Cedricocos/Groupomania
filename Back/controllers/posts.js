@@ -51,10 +51,16 @@ exports.modifyPost = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1];
   const decodedToken = jwt.verify(token, 'M0NS1T3GR0UP0M4N14');
-  Post.findOne({ id: req.params.id })
+  console.log(req.params.id);
+  Post.findOne({
+    where: {
+      id: req.params.id
+    }
+  })
     .then(post => {
       if (decodedToken.userId == post.userId || decodedToken.isAdmin == "true") {
         const filename = post.imageUrl.split('/images/')[1];
+        console.log(post.imageUrl);
         fs.unlink(`images/${filename}`, () => {
           Post.destroy({
             where: {

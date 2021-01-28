@@ -1,3 +1,3 @@
 if (!localStorage.getItem("Token")) {
-    window.location.assign("signup.html");
+    window.location.assign("login.html");
 } else {}

@@ -1,5 +1,4 @@
 function prepareCom() {
-
 	const sendcom = document.getElementsByClassName("sendcom");
 	for (let button of sendcom) {
 		button.addEventListener('click', function () {

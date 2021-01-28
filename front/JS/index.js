@@ -25,7 +25,8 @@ request("posts", 200, "GET", null, [{ key: "Authorization", value: "Bearer " + l
 
 		const img = document.createElement("img");
 		img.setAttribute("src", post.imageUrl);  //Image du post
-		img.setAttribute("class", "card-img-top mt-1 mb-3")
+		img.setAttribute("class", "card-img-top mt-1 mb-3");
+		img.setAttribute("alt", "Image liée à l'article");
 		card.appendChild(img);
 
 		const list = document.getElementById("listPosts");
@@ -82,13 +83,22 @@ request("posts", 200, "GET", null, [{ key: "Authorization", value: "Bearer " + l
 			const group = document.createElement("div");
 			group.setAttribute("class", "input-group mb-3");
 
+			const labelcoms = document.createElement("label");
+			labelcoms.setAttribute("class", "labelstyle");
+			labelcoms.setAttribute("for", "com");
+			labelcoms.innerHTML = "Commentaire :"
+
+
 			const postcom = document.createElement("input");
 			postcom.setAttribute("id", "com");
 			postcom.setAttribute("type", "text");
+			postcom.setAttribute("name", "com");
 			postcom.setAttribute("data-id", post.id);
 			postcom.setAttribute("class", "form-control input-com");
 			postcom.setAttribute("placeholder", "Commentaire...");
-			group.appendChild(postcom);
+			
+			labelcoms.appendChild(postcom);
+			group.appendChild(labelcoms);
 
 			const groupbtn = document.createElement("div");
 			groupbtn.setAttribute("class", "input-group-append");

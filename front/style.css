@@ -3,11 +3,6 @@
 	width: 200px;
 }
 
-.form-control.error
-{
-	border-color: red;
-}
-
 .groupomania-color
 {
 	background-color: #091f43;
@@ -36,4 +31,16 @@ body
 .post
 {
 	height: auto !important;
+}
+
+.labelstyle
+{
+	margin-bottom: 0;
+	width: 50%;
+}
+
+.sendcom
+{
+	height: 60%;
+	margin-top: auto;
 }
