@@ -5,8 +5,7 @@ Pour installer le projet sur votre machine :
 
 Pour executer le backend chez vous, il vous faudra :
 - Installer Node.js
-- Executer npm install
-- Installer les plugins bcrypt, body-parser, express, fs, jsonwebtoken, multer, mysql2 et sequelize
-- Demarrer le serveur avec la commande "node server"
+- Éxecuter dans un invité de commande à la racine du dossier "npm install"
+- Démarrer le serveur avec la commande "node server"
 
 Vous pouvez ensuite avoir accès au site à partir du fichier index.html dans le dossier front !
