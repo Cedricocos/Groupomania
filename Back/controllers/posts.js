@@ -22,8 +22,9 @@ exports.modifyPost = (req, res, next) => {
 
   var reqbody = null;
   var post = JSON.parse(req.body.post);
-  console.log(post);
-  if (decodedToken.userId == post.userId || decodedToken.isAdmin == "true") {
+  console.log(decodedToken.isAdmin)
+  if (decodedToken.userId == post.userId || decodedToken.isAdmin == true) {
+    console.log(post);
     if (req.file) {
       reqbody = {
         ...post,
@@ -58,7 +59,7 @@ exports.deletePost = (req, res, next) => {
     }
   })
     .then(post => {
-      if (decodedToken.userId == post.userId || decodedToken.isAdmin == "true") {
+      if (decodedToken.userId == post.userId || decodedToken.isAdmin == true) {
         const filename = post.imageUrl.split('/images/')[1];
         console.log(post.imageUrl);
         fs.unlink(`images/${filename}`, () => {
