@@ -4,7 +4,7 @@ const User = require('../models/User');
 
 const Post = sequelize.define('Post', {
   id:  { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-  userId: { type: DataTypes.STRING },
+  userId: { type: DataTypes.INTEGER },
   by: { type: DataTypes.STRING },
   title: { type: DataTypes.STRING, allowNull: false },
   text: { type: DataTypes.STRING, allowNull: false },
@@ -13,6 +13,6 @@ const Post = sequelize.define('Post', {
   
 Post.sync();
 
-User.hasMany(Post);
+User.hasMany(Post, {foreignKey: "userId"});
 
 module.exports = sequelize.model('Post', Post);

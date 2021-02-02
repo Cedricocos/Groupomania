@@ -19,7 +19,6 @@ exports.createPost = (req, res, next) => {
 exports.modifyPost = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1];
   const decodedToken = jwt.verify(token, 'M0NS1T3GR0UP0M4N14');
-
   var reqbody = null;
   var post = JSON.parse(req.body.post);
   console.log(decodedToken.isAdmin)
@@ -35,16 +34,25 @@ exports.modifyPost = (req, res, next) => {
         ...post
       }
     };
-    Post.update({
-      ...reqbody, id: post.id
-    },
-      {
-        where: {
-          id: post.id
-        }
+    Post.findOne({
+      where: {
+        id: req.params.id
+      }
+    }).then(post => {
+      const filename = post.imageUrl.split('/images/')[1];
+      fs.unlink(`images/${filename}`, () => {
+        Post.update({
+          ...reqbody, id: post.id
+        },
+          {
+            where: {
+              id: post.id
+            }
+          })
+          .then(() => res.status(201).json({ message: 'Post modifié !' }))
+          .catch(error => res.status(400).json({ error }));
       })
-      .then(() => res.status(201).json({ message: 'Post modifié !' }))
-      .catch(error => res.status(400).json({ error }));
+    })
   }
 };
 
@@ -52,7 +60,7 @@ exports.modifyPost = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1];
   const decodedToken = jwt.verify(token, 'M0NS1T3GR0UP0M4N14');
-  console.log(req.params.id);
+  // console.log(req.params.id);
   Post.findOne({
     where: {
       id: req.params.id
@@ -61,7 +69,7 @@ exports.deletePost = (req, res, next) => {
     .then(post => {
       if (decodedToken.userId == post.userId || decodedToken.isAdmin == true) {
         const filename = post.imageUrl.split('/images/')[1];
-        console.log(post.imageUrl);
+        // console.log(post.imageUrl);
         fs.unlink(`images/${filename}`, () => {
           Post.destroy({
             where: {
