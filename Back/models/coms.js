@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('mysql://Groupomania:S2mvIET5ntiIxoAs@localhost:3306/groupomania');
+require('dotenv').config();
+const sequelize = new Sequelize(`${process.env.DATABASESYSTEM}://${process.env.DATABASEUSER}:${process.env.DATABASEPASSWORD}@${process.env.DATABASESITE}:${process.env.DATABASEPORT}/${process.env.DATABASETABLE}`);
 const Post = require('../models/Post');
 const User = require('./User');
 

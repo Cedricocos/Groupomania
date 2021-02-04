@@ -5,7 +5,9 @@ Pour installer le projet sur votre machine :
 
 Pour executer le backend chez vous, il vous faudra :
 - Installer Node.js
-- Éxecuter dans un invité de commande à la racine du dossier "npm install"
+- Éxecuter "npm install" dans un invité de commande à la racine du dossier "back"
+- Créer un fichier "images" à la racine du dossier "back"
+- Remplir le .env.test en fonction de votre base de données puis le renommer en .env
 - Démarrer le serveur avec la commande "node server"
 
 Vous pouvez ensuite avoir accès au site à partir du fichier index.html dans le dossier front !

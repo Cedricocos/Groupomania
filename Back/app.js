@@ -7,8 +7,8 @@ const postsRoutes = require('./routes/posts');
 const userRoutes = require('./routes/user');
 const comsRoutes = require('./routes/coms');
 const path = require('path');
-
-const sequelize = new Sequelize('mysql://Groupomania:S2mvIET5ntiIxoAs@localhost:3306/groupomania');
+require('dotenv').config();
+const sequelize = new Sequelize(`${process.env.DATABASESYSTEM}://${process.env.DATABASEUSER}:${process.env.DATABASEPASSWORD}@${process.env.DATABASESITE}:${process.env.DATABASEPORT}/${process.env.DATABASETABLE}`);
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
